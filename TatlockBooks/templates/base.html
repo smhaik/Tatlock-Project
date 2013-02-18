@@ -1,0 +1,65 @@
+<!--
+   untitled.html
+   
+   Copyright 2013 Sarah <Sarah@SARAH-PC>
+   
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+   
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+   
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+   MA 02110-1301, USA.
+   
+   
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+	{% block pagetitle %} <title>Base Template</title> {% endblock pagetitle %}
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<meta name="generator" content="Geany 1.22" />
+	<link rel="stylesheet" type="text/css" href="/static/style.css" />
+</head>
+
+<body>
+	{% block banner %} 
+	<a href = "/../welcome"><div id = "banner"></div></a>
+	{% endblock banner %}	
+	{% block title %} 
+	<div id = "header"><u> {% block titleName %} Default {% endblock titleName %} </u></div>
+	{% endblock title %}
+	{% block menu %} 
+	<div id = "table"; style = "float:left; width:250px">
+		<table name="Menu"; border = 2>
+			<tr><td> <a href = "/../welcome"> <img src = "/static/images/literature.jpg"; height = "150"; width = "150"></a></td></tr>
+			<tr><td> <a href = "/../"> Search the Library </a></td></tr>
+			<tr><td> <a href = "/../authorlist"> List of Authors </a></td></tr>
+			<tr><td> <a href = "/../publisherlist"> List of Publishers </a></td></tr>
+			<tr><td> <a href = "/../translatorlist"> List of Translators </a></td></tr>
+			<tr><td> <a href = "/../worklist"> List of Works </a></td></tr>
+			<tr><td> <a href = "/../booklist"> List of Books </a></td></tr>
+		<!--	
+			<tr><td> <a href = "templates/list.html"> List of Publication Years </a></td></tr>
+			<tr><td> <a href = "templates/list.html"> List of Series </a></td></tr>
+		-->	
+			<tr><td> <a href = "/../contact"> Contact Us! </a></td></tr>
+			<tr><td> <a href = "/../about"> About the HDW </a></td></tr>
+			<tr><td> <a href = "http://hdw.artsci.wustl.edu/projects"> Other Projects </a></td></tr>
+		</table>
+	</div>
+	{% endblock menu %}
+	{% block content %} {% endblock content %}
+</body>
+
+</html>

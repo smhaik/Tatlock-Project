@@ -1,0 +1,122 @@
+<!--
+   untitled.html
+   
+   Copyright 2013 Sarah <Sarah@SARAH-PC>
+   
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+   
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+   
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+   MA 02110-1301, USA.
+   
+   
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+	{% extends "base.html" %}
+	{% block pagetitle %} <title>Home</title> {% endblock pagetitle %}
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<meta name="generator" content="Geany 1.22" />
+	
+</head>
+
+<body>
+
+	{% block titleName %} 
+	 Search the Library
+	{% endblock titleName %}
+	{% block content %}
+	
+	<script>
+		function setOptions(chosen) {
+		var selbox = document.myform.opttwo;
+ 
+		selbox.options.length = 0;
+		if (chosen == " ") {
+			selbox.options[selbox.options.length] = new Option('','');
+		}
+		if (chosen == "Author") {
+			selbox.options[selbox.options.length] = new Option('All','/authorlist');
+			{% for author in authors %}
+				selbox.options[selbox.options.length] = new Option('{{author.name}}','/authors/{{author.id}}');
+			{%endfor%}
+			
+		}
+		if (chosen == "Book") {
+			selbox.options[selbox.options.length] = new Option('All','/booklist');
+			{% for book in books %}
+				selbox.options[selbox.options.length] = new Option('{{book.title}}','/books/{{book.label}}');
+			{%endfor%}
+	}	
+	
+		if (chosen == "Work") {
+			selbox.options[selbox.options.length] = new Option('All','/worklist');
+			{% for work in works %}
+				selbox.options[selbox.options.length] = new Option('{{work.name}}','/works/{{work.id}}');
+			{%endfor%}
+	}
+	
+		if (chosen == "Publisher") {
+			selbox.options[selbox.options.length] = new Option('All','/publisherlist');
+			{% for publisher in publishers %}
+				selbox.options[selbox.options.length] = new Option('{{publisher.name}}','/publishers/{{publisher.id}}');
+			{%endfor%}
+		}
+	<!--	if (chosen == "PubYear") {
+	<!--		selbox.options[selbox.options.length] = new Option('All','year, all');
+	<!--	}
+		if (chosen == "Translator") {
+			selbox.options[selbox.options.length] = new Option('All','/translatorlist');
+			{% for translator in translators %}
+				selbox.options[selbox.options.length] = new Option('{{translator.name}}','/translators/{{translator.id}}');
+			{%endfor%}
+		}
+		}	
+	</script>
+	<script>
+		function goToNewPage(dropdownlist)
+		{
+			var url = dropdownlist.options[dropdownlist.selectedIndex].value;
+			if (url != "")
+			{
+				window.open(url);
+			}
+		}
+	</script>
+	<div align = "center")>  This online library is... (brief description) </div>
+	<br><br>
+	<form name="myform">
+		<div align="center">
+			<select name="optone" size="1" onchange="setOptions(document.myform.optone.options[document.myform.optone.selectedIndex].value);">
+				<option value=" " selected="selected"> Please Select a Field</option>
+				<option value="Author">Author</option>
+				<option value="Publisher">Publisher</option>
+				<option value="Translator"> Translator </option>
+				<option value="Book"> Book </option>
+				<option value="Work"> Work </option>
+				
+			</select>
+			
+			<select name = "opttwo" size = "1")>
+				<option value=" " selected="selected"> Please select a field first</option>
+			</select>
+			<input type="button" name="go" value="Search" onclick="goToNewPage(document.myform.opttwo)"> <br>
+		</div>
+	</form>
+{% endblock content %}
+</body>
+
+</html>

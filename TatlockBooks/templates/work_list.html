@@ -1,0 +1,69 @@
+<!--
+   untitled.html
+   
+   Copyright 2013 Sarah <Sarah@SARAH-PC>
+   
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+   
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+   
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+   MA 02110-1301, USA.
+   
+   
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+	{% extends "base.html" %}
+	{% block pagetitle %} <title>Work List</title>{% endblock pagetitle %}
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<meta name="generator" content="Geany 1.22" />
+</head>
+
+<body>
+
+	{% block titleName %} List of Works {% endblock titleName %}
+	{% block content %}
+		{% regroup works by letter as letter_list %}
+		{% block navigation %}
+		<div id = "table">
+			<table name = "navigation">
+				<tr>
+					{% for letter in letter_list %}
+						<td><a href = "#{{letter.grouper}}">{{letter.grouper}}</a></td>
+					{%endfor %}
+				</tr>
+			</table>
+		</div>
+		{% endblock navigation %}
+		{% block list %}
+		<div id = "table">		
+			<table name = "list"; border = 1>
+				<tr>
+					<td> Title </td><td> Author </td><td> Description </td>
+				</tr>	
+					{% for letter in letter_list %}
+						<tr><td id = "{{letter.grouper}}">{{letter.grouper}}</td></tr>
+						{% for work in letter.list %}
+							<tr><td><a href = "/../works/{{work.id}}">{{work.name}}</a></td><td>{{work.author}}</td><td> {{work.description}}</td></tr>
+						{% endfor %}
+					{%endfor %}
+			</table>
+		</div>
+		{% endblock list %}
+	{% endblock content %}
+</body>
+
+</html>
