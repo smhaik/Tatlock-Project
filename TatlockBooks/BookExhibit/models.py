@@ -12,7 +12,7 @@ class Publisher(models.Model):
 	#copyrights held by this publisher and dates
 		#see "views.py"
 	#advertisements; images of backmatter catalogues/advertisements hosted by this publisher
-	#ads = FileBrowseField("Ads", max_length=200, #directory="images", extensions=[".jpg"], blank=True, null=True)
+		#ads = FileBrowseField("Ads", max_length=200, #directory="images", extensions=[".jpg"], blank=True, null=True)
 	def letter(self):
 		return self.name[0]
 		
@@ -102,13 +102,13 @@ class Book(models.Model):
         
 #class series(models.Model):
 	#name = models.CharField(max_length = 100)
-	#creator = publisher/author: see views.py
+	#creator = [[publisher]]/author: see views.py
 	#books in series: see views.py
 
 #class Bookimage(models.Model):
  #   image = FileBrowseField("Image", max_length=200, #directory="images", extensions=[".jpg"], blank=True, null=True)
  #   book = models.ForeignKey(Book)
- #image types: front/back cover, spine, inscription, frontispiece, titlepage, copyright, table of contents, first textpage, second text page, second-to-last text page, last text page, backmatter(advertisment/catalogue), illustration, marginalia, inserted material.
+ #image types: front/back cover, spine, inscription, frontispiece, titlepage, copyright, table of contents, first textpage, second text page, second-to-last text page, last text page, backmatter(advertisment/catalogue), illustration, marginalia, inserted material, portrait, logo
 	#types are not all mutualy exclusive.
   #  def __unicode__(self):
    #     return u"----- {0} ----- {1}".format(self.image, self.book)
