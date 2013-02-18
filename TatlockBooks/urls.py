@@ -15,9 +15,11 @@ urlpatterns = patterns('',
 	
 	url(r'^works/(?P<work_id>\w+)/$', 'TatlockBooks.views.workpage', name = 'workpage'),
     url(r'^books/(?P<book_label>\w+)/$', 'TatlockBooks.views.bookpage', name = 'bookpage'),
+	url(r'^series/(?P<series_id>\w+)/$', 'TatlockBooks.views.seriespage', name = 'seriespage'),
     url(r'^authors/(?P<author_id>\w+)/$', 'TatlockBooks.views.authorpage', name = 'authorpage'),
     url(r'^publishers/(?P<publisher_id>\w+)/$', 'TatlockBooks.views.publisherpage', name = 'publisherpage'),
     url(r'^translators/(?P<translator_id>\w+)/$', 'TatlockBooks.views.translatorpage', name = 'translatorpage'),
+   
     url(r'^authorlist/', 'TatlockBooks.views.authorlist', name = 'authorlist'),
     url(r'^publisherlist/', 'TatlockBooks.views.publisherlist', name = 'publisherlist'),
     url(r'^translatorlist/', 'TatlockBooks.views.translatorlist', name = 'translatorlist'),

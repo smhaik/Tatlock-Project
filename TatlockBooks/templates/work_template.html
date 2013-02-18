@@ -52,6 +52,12 @@
 			<ul><a href = "/../translators/{{translator.id}}">{{translator.name}}</a></ul>
 			{% endfor %} 
 		{%endblock translators %}<br>
+		
+		{% block editions %} Versions(?) of this work:
+			{% for translator in translatorss %}
+			<ul><a href = "/../books/{{book.label}}">{{book.title}}</a></ul>
+			{% endfor %}
+		{% endblock editions %}
 
 		
 	{% endblock content %}
