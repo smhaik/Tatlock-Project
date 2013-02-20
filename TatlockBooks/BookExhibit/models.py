@@ -3,7 +3,7 @@ from django.db import models
 class Publisher(models.Model):
 	name = models.CharField(max_length=100)
 	#logo: image of this publishers logo/insignia if available
-		#logo = FileBrowseField("Logo", max_length=200, #directory="images", extensions=[".jpg"], blank=True, null=True)
+		#**logo = ImageField(upload_to='/media_root/logos/' [height_field = None, width_field=None, max_length = 100])
 	years_active = models.CharField(max_length=100, blank = True)
 	#yearlink = ...
 	location = models.CharField(max_length = 100, blank = True)
@@ -38,7 +38,6 @@ class Author(models.Model):
 class Work(models.Model):
     name = models.CharField(max_length=100)
     author = models.ForeignKey(Author, null=True)
-    #hook work.author up to the author object
     description = models.TextField(blank=True, default='')
     #editions of this work: see views.py
 
@@ -68,10 +67,8 @@ class Translator(models.Model):
 class Book(models.Model):
     label = models.CharField(max_length=20)
     title = models.CharField(max_length=100)
-    work = models.CharField(max_length=100)
     worklink = models.ForeignKey(Work, null=True)
     author = models.CharField(max_length=100)
-    authorlink = models.ForeignKey(Author, null=True)
     publisher = models.CharField(max_length=100)
     publisherlink = models.ForeignKey(Publisher, null=True)
     pubplace = models.CharField(max_length=100)
@@ -83,7 +80,7 @@ class Book(models.Model):
     translatorlink = models.ForeignKey(Translator, null=True)
     pages = models.CharField(max_length=40)
     series = models.CharField(max_length=100)
-    serieslink = models.ForeignKey(Series, null = True)
+    #serieslink = models.ForeignKey(Series, null = True)
     edition = models.CharField(max_length=100)
     physdesc = models.TextField()
     inscription = models.TextField()
@@ -106,7 +103,7 @@ class Book(models.Model):
     def __unicode__(self):
         return u"{0} {1} / {2} ({3})".format(self.label, self.work, self.author, self.year)
     class Meta:
-        ordering = ['work', 'label']
+        ordering = [ 'label']
         
 #class Series(models.Model):
 	#name = models.CharField(max_length = 100)

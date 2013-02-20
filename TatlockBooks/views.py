@@ -27,16 +27,15 @@ def bookpage(request, book_label):
 
 def workpage(request, work_id):
 	work = Work.objects.filter(id = work_id)[0]
-	author = Author.objects.filter(book__worklink = work)
 	translators = Translator.objects.filter(book__worklink = work)
 	publishers = Publisher.objects.filter(book__worklink = work)
-	editions = Book.objects.filter(book__worklink = work)
+	#editions = Book.objects.filter(worklink = work)
 	return render_to_response("work_template.html", {'work' : work, 'author': author, 'translators':translators, 'publishers':publishers})
 
-def seriespage(request, series_id):
-	series = Series.objects.filter(id = series_id)[0]
-	creator = Publisher.objects.filter(book__serieslink = series)
-	books = Book.objects.filter(book__serieslink = series)	
+#def seriespage(request, series_id):
+#	series = Series.objects.filter(id = series_id)[0]
+#	creator = Publisher.objects.filter(book__serieslink = series)
+#	books = Book.objects.filter(book__serieslink = series)	
 	 
 def authorpage(request, author_id):
 	author = Author.objects.filter(id = author_id)[0]
