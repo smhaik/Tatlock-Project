@@ -2,18 +2,14 @@ from django.db import models
 
 class Publisher(models.Model):
 	name = models.CharField(max_length=100)
-	#logo: image of this publishers logo/insignia if available
-		#**logo = ImageField(upload_to='/media_root/logos/' [height_field = None, width_field=None, max_length = 100])
-	years_active = models.CharField(max_length=100, blank = True)
-	#yearlink = ...
+	logo = models.ImageField(upload_to='/media_root/logos/')
+	year_start = models.IntegerField(null = True)
+	year_end = models.IntegerField(null = True)
 	location = models.CharField(max_length = 100, blank = True)
 	description = models.TextField(blank=True, default='')
 	#series/collections by this publisher
 		# see "views.py"
-	#copyrights held by this publisher and dates
-		#see "views.py"
-	#advertisements; images of backmatter catalogues/advertisements hosted by this publisher
-		#ads = FileBrowseField("Ads", max_length=200, #directory="images", extensions=[".jpg"], blank=True, null=True)
+	ads = models.ImageField(upload_to='/media_root/ads/')
 	def letter(self):
 		return self.name[0]
 		
@@ -22,13 +18,12 @@ class Publisher(models.Model):
 
 class Author(models.Model):
 	name = models.CharField(max_length=100)
-	birth_date = models.CharField(max_length=100, blank = True)
-	death_date = models.CharField(max_length=100, blank = True)
-	years_active = models.CharField(max_length=100, blank = True)
-	#yearlink = ...
+	birth_date = models.IntegerField( null = True)
+	death_date = models.IntegerField(null = True)
+	year_start = models.IntegerField(null = True)
+	year_end = models.IntegerField(null = True)
 	description = models.TextField(blank=True, default='')
-	#portrait = image of this author
-		#portrait = FileBrowseField("Portrait", max_length=200, #directory="images", extensions=[".jpg"], blank=True, null=True)
+	portrait = models.ImageField(upload_to='/media_root/portraits/')
 	def letter(self):
 		return self.name[0]
 		
@@ -49,103 +44,112 @@ class Work(models.Model):
     
 class Translator(models.Model):
 	name = models.CharField(max_length=100)
-	#portrait of translator if available
-		#portrait = FileBrowseField("Portrait", max_length=200, #directory="images", extensions=[".jpg"], blank=True, null=True)
-	birth_date = models.CharField(max_length=100, blank = True)
-	death_date = models.CharField(max_length=100, blank = True)
-	years_active = models.CharField(max_length =100, blank = True)
-	#yearlink = ...
+	portrait = models.ImageField(upload_to='/media_root/portraits/')
+	birth_date = models.IntegerField(null = True)
+	death_date = models.IntegerField(null = True)
+	year_start = models.IntegerField(null = True)
+	year_end = models.IntegerField(null = True)
 	description = models.TextField(blank=True, default='')
-	#advertisements for this translator?? (A.L. Wister has a lot of them, don't remember if others do)
-				#translatorads = FileBrowseField("TranslatorAds", max_length=200, #directory="images", extensions=[".jpg"], blank=True, null=True)
+	translatorads = models.ImageField(upload_to='/media_root/ads/')
 	def letter(self):
 		return self.name[0]
 		
 	def __unicode__(self):
 		return self.name
         
+class Series(models.Model):
+	name = models.CharField(max_length = 100)
+	creator = models.ForeignKey(Publisher)
+	#books in series: see views.py
+	
+	def __unicode__(self):
+		return self.name
+	
 class Book(models.Model):
-    label = models.CharField(max_length=20)
-    title = models.CharField(max_length=100)
-    worklink = models.ForeignKey(Work, null=True)
-    author = models.CharField(max_length=100)
-    publisher = models.CharField(max_length=100)
-    publisherlink = models.ForeignKey(Publisher, null=True)
-    pubplace = models.CharField(max_length=100)
-    year = models.CharField(max_length=100)
-    #yearlink = ...
-    copyright = models.CharField(max_length=254)
-    copyright_date = models.CharField(max_length=254)
-    translation = models.CharField(max_length=100)
-    translatorlink = models.ForeignKey(Translator, null=True)
-    pages = models.CharField(max_length=40)
-    series = models.CharField(max_length=100)
-    #serieslink = models.ForeignKey(Series, null = True)
-    edition = models.CharField(max_length=100)
-    physdesc = models.TextField()
-    inscription = models.TextField()
-    inscription_date = models.CharField(max_length=100)
-    has_frontispiece = models.BooleanField(default=False)
-    has_illustrations = models.BooleanField(default=False)
-    has_backmatter = models.BooleanField(default=False)
-    rdfpubid = models.CharField(max_length=100)
-    notes = models.TextField()
+	label = models.CharField(max_length=20)
+	title = models.CharField(max_length=100)
+	work = models.CharField(max_length=100)
+	worklink = models.ManyToManyField(Work, null=True)
+	author = models.CharField(max_length=100)
+	publisher = models.CharField(max_length=100)
+	publisherlink = models.ForeignKey(Publisher, null=True)
+	pubplace = models.CharField(max_length=100)
+	year = models.IntegerField(null = True)
+	copyright = models.TextField(max_length=500)
+	copyright_date = models.IntegerField(null = True)
+	recent_copyright = models.CharField(max_length = 254)
+	recent_copyright_date = models.IntegerField(null = True)
+	translation = models.CharField(max_length=100)
+	translatorlink = models.ManyToManyField(Translator, null=True)
+	pages = models.CharField(max_length=40)
+	series = models.CharField(max_length=100)
+	serieslink = models.ForeignKey(Series, null = True)
+	edition = models.CharField(max_length=100)
+	physdesc = models.TextField()
+	inscription = models.TextField()
+	inscription_date = models.IntegerField(blank = True)
+	has_frontispiece = models.BooleanField(default=False)
+	has_illustrations = models.BooleanField(default=False)
+	has_backmatter = models.BooleanField(default=False)
+	rdfpubid = models.CharField(max_length=100)
+	notes = models.TextField()
     #in database: make notes more presentable
     #mark special pages of notes (marginalia, inserted material, etc)
 		#include images of these and tag them to appear in a search result (deal with this when deal with search page)
-    type = models.CharField(max_length=100)
-    img_cover = models.CharField(max_length=100)
-	#bookimages = ...
+	type = models.CharField(max_length=100)
+	img_cover = models.CharField(max_length=100)
+
 	
-    def letter(self):
-        return self.title[0]
+	def letter(self):
+		return self.title[0]
 		
-    def __unicode__(self):
-        return u"{0} {1} / {2} ({3})".format(self.label, self.work, self.author, self.year)
-    class Meta:
-        ordering = [ 'label']
+	def __unicode__(self):
+		return u"{0} {1} / {2} ({3})".format(self.label, self.work, self.author, self.year)
+	class Meta:
+		ordering = [ 'label']
         
-#class Series(models.Model):
-	#name = models.CharField(max_length = 100)
-	#creator: see views.py
-	#books in series: see views.py
-	
-	#	def __unicode__(self):
-	#	return self.name
-	
-#class Year(models.Model):
-	#date = models.CharField(max_length = 4)
-	#authors, publishers, translators active, books published, copyrightsmade => views.py
-		#need to add "yearlink" to each of these models
-	
-	#	def __unicode__(self):
-	#	return self.date
 
-#class Bookimage(models.Model):
- #   image = FileBrowseField("Image", max_length=200, #directory="images", extensions=[".jpg"], blank=True, null=True)
- #   book = models.ForeignKey(Book)
- #	 **seq_num = 
- #	 **page_num = 
- #	 **type = (spine, fcover, bcover, inscription, titlepage, copypage, first_text, second_text, second_last_text, last_text, none) 
- #	 is_frontispiece = models.BooleanField(default=False)
- #	 is_table_contents = models.BooleanField(default=False)
- #	 is_back_ad = models.BooleanField(default=False)
- #	 is_back_cat = models.BooleanField(default=False)
- #	 is_illustration = models.BooleanField(default=False)
- #	 is_marginalia = models.BooleanField(default=False)
- #	 is_insert = models.BooleanField(default=False)
+class Bookimage(models.Model):
+	image = models.ImageField(upload_to='/media_root/bookimages/')
+	book = models.ForeignKey(Book)
+	sequence = models.IntegerField()
+	page = models.CharField(max_length = 100)
+	type_choices = (
+		(u'spine', u'spine'),
+		(u'fcover', u'front cover'), 
+		(u'bcover', u'back cover'), 
+		(u'inscription', u'inscription'),
+		(u'titlepage', u'title page'),
+		(u'copypage', u'copyrights page'),
+		(u'first_text', u'first page of text'),
+		(u'second_text', u'second page of text'),
+		(u'second_last_text', u'second to last page of text'),
+		(u'last_text', u'last page of text'),
+		(u'special', u'special'), 
+	)
+	is_frontispiece = models.BooleanField(default=False)
+	is_table_contents = models.BooleanField(default=False)
+	is_back_ad = models.BooleanField(default=False)
+	is_back_cat = models.BooleanField(default=False)
+	is_illustration = models.BooleanField(default=False)
+	is_marginalia = models.BooleanField(default=False)
+	is_insert = models.BooleanField(default=False)
+	
+	def __unicode__(self):
+		return u"----- {0} ----- {1}".format(self.image, self.book)
+	class Meta:
+		ordering = ['image', 'book']
 
-  #  def __unicode__(self):
-   #     return u"----- {0} ----- {1}".format(self.image, self.book)
-#    class Meta:
- #       ordering = ['image', 'book']
-
-#class Extraimage(models.Model):
- #	 book = models.ForeignKey(Book)
- #   image = FileBrowseField("Image", max_length=200, #directory="images", extensions=[".jpg"], blank=True, null=True)
- #	 type = (portrait, logo, other)	
+class Extraimage(models.Model):
+	book = models.ForeignKey(Book)
+	image = models.ImageField(upload_to='/media_root/extraimages/')
+	type_choice = (
+		(u'portrait', u'portrait'),
+		(u'logo', u'logo'),
+		(u'other', u'other'),
+	)	
  
-   #  def __unicode__(self):
-   #     return u"----- {0} ----- {1}".format(self.image, self.book)
-#    class Meta:
- #       ordering = ['image', 'book']
+	def __unicode__(self):
+		return u"----- {0} ----- {1}".format(self.image, self.book)
+	class Meta:
+		ordering = ['image', 'book']

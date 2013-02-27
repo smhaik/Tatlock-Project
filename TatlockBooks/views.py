@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
-from BookExhibit.models import Book, Author, Publisher, Translator, Work
+from BookExhibit.models import Book, Author, Publisher, Translator, Work, Series, Bookimage, Extraimage
 
 def home(request):
 	authors = Author.objects.all().order_by('name')
@@ -8,8 +8,7 @@ def home(request):
 	translators = Translator.objects.all().order_by('name')
 	books = Book.objects.all().order_by('title')
 	works = Work.objects.all().order_by('name')
-	#pubyear
-	#series = Series.objects.all().order_by('name')
+	series = Series.objects.all().order_by('name')
 	return render_to_response("Home.html",{'authors' : authors, 'publishers' : publishers, 'translators' : translators, 'books' : books, 'works' : works})
     
 def welcome(request):
@@ -29,20 +28,19 @@ def workpage(request, work_id):
 	work = Work.objects.filter(id = work_id)[0]
 	translators = Translator.objects.filter(book__worklink = work)
 	publishers = Publisher.objects.filter(book__worklink = work)
-	#editions = Book.objects.filter(worklink = work)
+	editions = Book.objects.filter(worklink = work)
 	return render_to_response("work_template.html", {'work' : work, 'author': author, 'translators':translators, 'publishers':publishers})
 
-#def seriespage(request, series_id):
-#	series = Series.objects.filter(id = series_id)[0]
-#	creator = Publisher.objects.filter(book__serieslink = series)
-#	books = Book.objects.filter(book__serieslink = series)	
+def seriespage(request, series_id):
+	series = Series.objects.filter(id = series_id)[0]
+	creator = Publisher.objects.filter(book__serieslink = series)
+	books = Book.objects.filter(book__serieslink = series)	
 	 
 def authorpage(request, author_id):
 	author = Author.objects.filter(id = author_id)[0]
 	publishers = Publisher.objects.filter(book__authorlink = author)
 	translators = Translator.objects.filter(book__authorlink = author)
 	works = Work.objects.filter(book__authorlink = author)
-    # series = Series.objects
 	return render_to_response("author_template.html", {'author' : author, 'publishers' : publishers, 'translators' : translators, 'works' : works})
 
 def translatorpage(request, translator_id):
@@ -57,8 +55,7 @@ def publisherpage(request, publisher_id):
 	authors = Author.objects.filter(book__publisherlink = publisher)
 	translators = Translator.objects.filter(book__publisherlink = publisher)
 	works = Work.objects.filter(book__publisherlink = publisher)
-	# series = Series.objects.filter(book__publisherlink = publisher)
-	# copyrights_held = 
+	series = Series.objects.filter(book__publisherlink = publisher)
 	return render_to_response("publisher_template.html", {'publisher' : publisher, 'authors' : authors, 'translators' : translators, 'works' : works})
 	
 def authorlist(request):
