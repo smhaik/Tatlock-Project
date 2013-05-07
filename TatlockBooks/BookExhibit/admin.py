@@ -11,7 +11,7 @@ import os
 
 class BookAdmin(admin.ModelAdmin):
     fieldsets = (
-        (None, {'fields': (('label', 'title', ), 
+        (None, {'fields': (('label', 'title', 'work'), 
             'author',
             ('publisher', 'pubplace', 'year'), 
             ('copyright', 'copyright_date', 'recent_copyright', 'recent_copyright_date'),

@@ -36,7 +36,7 @@
 	{% block titleName %} {{author.name}}{% endblock titleName %}
 	{% block content %}
 		{% block life %} ( {{author.birth_date}} - {{author.death_date}} ) {% endblock life %} <br>
-		{% block active %} Active: {{author.years_active}} {% endblock active %} <br>
+		{% block active %} Active: {{author.year_start}}-{{author.year_end}} {% endblock active %} <br>
 		{% block description %} About the Author: {{author.description}} {%endblock description %}<br>
 		Portrait Image <br>
 	
@@ -52,9 +52,6 @@
 				<ul><a href = "/../translators/{{translator.id}}"> {{translator.name}} </a></ul>
 			{% endfor %} 
 		{%endblock translators %}<br>
-		
-		{% block series %} SERIES BY THIS AUTHOR {%endblock series %}<br>
-
 
 		{% block works %} Works by this author:
 			{% for work in works %}

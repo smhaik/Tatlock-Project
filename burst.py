@@ -1,4 +1,4 @@
-from TatlockBooks.BookExhibit.models import Author, Publisher, Translator, Work, Book
+from TatlockBooks.BookExhibit.models import Author, Publisher, Translator, Work, Book, Series
 
 def burst():
     books = Book.objects.all()
@@ -10,6 +10,8 @@ def burst():
     publishers = list(set([i[0] for i in valuelist]))
     valuelist = Book.objects.values_list('translation')
     translators = list(set([i[0] for i in valuelist]))
+    valuelist = Book.objects.values_list('series')
+    series = list(set([i[0] for i in valuelist]))
 
     print "\nAUTHORS"
     for authname in authors:
@@ -29,4 +31,9 @@ def burst():
     print "\nTRANSLATORS"
     for translatorname in translators:
         translator, created = Translator.objects.get_or_create(name=translatorname)
+        print translator, created
+
+    print "\nSeries"
+    for seriesname in series:
+        series, created = Series.objects.get_or_create(name=seriesname)
         print translator, created

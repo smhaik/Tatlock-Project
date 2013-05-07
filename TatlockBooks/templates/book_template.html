@@ -30,35 +30,70 @@
 	{% block pagetitle %} <title>{{book.title}}</title> {% endblock pagetitle %}
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	<meta name="generator" content="Geany 1.22" />
+	
 </head>
 
 <body>
 
 	{% block titleName %} {{book.title}}{% endblock titleName %}
+
 	{% block content %} 
-		{% block author %} Written by: <a href = "/../authors/{{book.author.id}}">{{book.author}} </a>{% endblock author %} <br>
-		{% block publisher %} Published by: <a href = "/../publishers/{{book.publisher.id}}">{{book.publisher}} </a>{% endblock publisher%} <br>
+	
+		{% block image %} 
+
+			<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+			<script>
+				var imglist = [
+					{% for bookimage in bookimages %}
+					{% with nameonly=bookimage.name_only %}
+						{% if forloop.last %}
+							"{{nameonly}}"
+						{% else %}
+							"{{nameonly}}",
+						{% endif %}
+					{% endwith %}
+					{% endfor %}
+					]
+				$(document).ready(function () {
+					$("#clickMe").click(function () {
+						var index = parseInt($(this).attr("data-n"))
+						index = index < imglist.length -1 ? index + 1 : 0;
+						$("#clickMe").attr("src", "/../static/images/bookimages/"+imglist[index]);
+						$("#clickMe").attr("data-n", index);
+					});
+				});	
+			</script>
+			<img id = "clickMe" data-n = "0" height = "100" src = "/../static/images/bookimages/{{firstimage}}" >
+			
+		{% endblock image %}
+		<br>
+	{% block author %} Author:
+		{% for work in works %}	
+			<a href = "/../authors/{{work.author.id}}">{{book.author}}</a><br>
+		{% endfor %}
+	{% endblock author %}	
+	{% block translator %} Translator: 
+		{% for translator in translators %}
+			Translated by:<a href = "/../translators/{{translator.id}}"> {{book.translation}} </a><br>
+		{% endfor %}
+		{%endblock translator %}
+		
+		{% block publisher %} Published by: <a href = "/../publishers/{{book.publisherlink.id}}">{{book.publisher}} </a>{% endblock publisher%} <br>
 		{% block pubPlace %} Published at:{{book.pubplace}} {% endblock pubPlace %}<br>
 		{% block pubYear %} in the year: {{book.year}} {% endblock pubYear %}<br>
-		{% block copyright %} Copyright held by: {{book.copyright}} {%endblock copyright %}<br>
-		{% block copydate %} for the year:{{book.copyright_date}} {%endblock copydate %}<br>
-		{% block translator %} Translated by:<a href = "/../translators/{{book.translator.id}}"> {{book.translation}} </a>{%endblock translator %}<br>
+		{% block copyright %} Copyright held by: {{book.recent_copyright}} {%endblock copyright %}<br>
+		{% block copydate %} for the year:{{book.recent_copyright_date}} {%endblock copydate %}<br>
 		{% block pages %} Number of pages: {{book.pages}} {%endblock pages %}<br>
 		{% block series %} In the series: {{book.series}} {%endblock series %}<br>
 		{% block edition %} Edition: {{book.edition}} {%endblock edition%}<br>
 		{% block inscription %} Inscription: {{book.inscription}} {%endblock inscription %}<br>
-			Sample Image <br>
 		{% block addMatter %}
-				{% block frontispiece %} frontispiece Y/N: {{book.has_frontispiece}} {%endblock frontispiece %}<br>
-				{% block front_ads %} ads y/N: XXXX {%endblock front_ads %}<br>
 				{% block illustrations%} 
-					illustrations y/N: {{book.has_illustrations}} <br>
-					sample images <br>
+					illustrations Y/N: {{book.has_illustrations}} <br>
 				{%endblock illustrations%}<br>
 				{% block backmatter %} 
-					BACKMATTER Y/N. {{book.has_backmatter}} <br>
-					sample images <br>
-					{%endblock backmatter %}<br>
+					backmatter Y/N: {{book.has_backmatter}} <br>
+				{%endblock backmatter %}<br>
 				{% block notes %} NOTES: {{book.notes}}{%endblock notes%}<br>
 		{% endblock addMatter %}
 	{% endblock content %}

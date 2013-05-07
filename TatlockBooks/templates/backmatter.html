@@ -27,16 +27,16 @@
 
 <head>
 	{% extends "base.html" %}
-	{% block pagetitle %} <title>Book List</title> {% endblock pagetitle %}
+	{% block pagetitle %} <title>Backmatter</title> {% endblock pagetitle %}
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	<meta name="generator" content="Geany 1.22" />
 </head>
 
 <body>
 
-	{% block titleName %} List of Books {% endblock titleName %}
+	{% block titleName %} List of Books with Backmatter {% endblock titleName %}
 	{% block content %}
-		{% regroup books by letter as letter_list %}
+		{% regroup backmatter by letter as letter_list %}
 		
 		{% block navigation %}
 		<div id = "table">
@@ -62,10 +62,8 @@
 							
 							<tr>
 								<td>
-									{% with image=book.bookimage_set.all|first%}
-									{% with firstimage=image.name_only %}
-										<img class = "clickMe" data-n = "0" data-b = "{{book.id}}" height = "100" src = "/../static/images/thumbnails/thumb_{{firstimage}}" >
-									{% endwith %}
+									{% with firstimage=book.bookimage_set.all|first %}
+										<img class = "clickMe" data-n = "0" data-b = "{{book.id}}" height = "100" src = "/../static/images/thumbnails/thumb_{{firstimage.image}}" >
 									{% endwith %}
 								</td>
 								<td><a href = "/../books/{{book.label}}">{{book.title}}</a></td>

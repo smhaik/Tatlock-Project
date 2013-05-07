@@ -35,7 +35,7 @@
 <body>
 	{% block titleName %} {{publisher.name}}{% endblock titleName %}
 	{% block content %}
-		{% block active %} Active: {{publisher.years_active}} {% endblock active %} <br>
+		{% block active %} Active: {{publisher.year_start}} - {{publisher.year_end}} {% endblock active %} <br>
 		{% block location %} Location: {{publisher.location}} {% endblock location %} <br>
 		
 		{% block authors %} Published works by: 

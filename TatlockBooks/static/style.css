@@ -7,7 +7,7 @@ body {
 	margin: 0 auto;
 	width: 500px;
 	height: 218px;
-	background-image: url(images/library-books1.jpg);
+	background-image: url('images/layout images/banner resized.jpg');
 }
 #header {
 	text-align: center; 

@@ -56,7 +56,7 @@
 					{% for letter in letter_list %}
 						<tr><td id = "{{letter.grouper}}">{{letter.grouper}}</td></tr>
 						{% for author in letter.list %}
-							<tr><td><a href = "/../authors/{{author.id}}">{{author.name}}</a></td><td>{{author.years_active}}</td><td> {{author.description}}</td></tr>
+							<tr><td><a href = "/../authors/{{author.id}}">{{author.name}}</a></td><td>{{author.year_start}}-{{author.year_end}}</td><td> {{author.description}}</td></tr>
 						{% endfor %}
 					{%endfor %}
 			</table>

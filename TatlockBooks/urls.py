@@ -15,7 +15,7 @@ urlpatterns = patterns('',
 	
 	url(r'^works/(?P<work_id>\w+)/$', 'TatlockBooks.views.workpage', name = 'workpage'),
     url(r'^books/(?P<book_label>\w+)/$', 'TatlockBooks.views.bookpage', name = 'bookpage'),
-	#url(r'^series/(?P<series_id>\w+)/$', 'TatlockBooks.views.seriespage', name = 'seriespage'),
+	url(r'^series/(?P<series_id>\w+)/$', 'TatlockBooks.views.seriespage', name = 'seriespage'),
     url(r'^authors/(?P<author_id>\w+)/$', 'TatlockBooks.views.authorpage', name = 'authorpage'),
     url(r'^publishers/(?P<publisher_id>\w+)/$', 'TatlockBooks.views.publisherpage', name = 'publisherpage'),
     url(r'^translators/(?P<translator_id>\w+)/$', 'TatlockBooks.views.translatorpage', name = 'translatorpage'),
@@ -25,6 +25,16 @@ urlpatterns = patterns('',
     url(r'^translatorlist/', 'TatlockBooks.views.translatorlist', name = 'translatorlist'),
     url(r'^worklist/', 'TatlockBooks.views.worklist', name = 'worklist'),
     url(r'^booklist/', 'TatlockBooks.views.booklist', name = 'booklist'),
+    url(r'^serieslist/', 'TatlockBooks.views.serieslist', name = 'serieslist'),
+    
+    url(r'^illustrations/', 'TatlockBooks.views.illustrations', name = 'illustrations'),
+    url(r'^marginalia/', 'TatlockBooks.views.marginalia', name = 'marginalia'),
+    url(r'^inscriptions/', 'TatlockBooks.views.inscriptions', name = 'inscriptions'),
+    url(r'^inserts/', 'TatlockBooks.views.inserts', name = 'inserts'),
+    url(r'^backmatter/', 'TatlockBooks.views.backmatter', name = 'backmatter'),
+    
+    url(r'^search/', 'TatlockBooks.views.search', name = 'search'),
+    
     # url(r'^TatlockBooks/', include('TatlockBooks.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

@@ -69,21 +69,61 @@
 			{%endfor%}
 	}
 	
+		if (chosen == "Series") {
+			selbox.options[selbox.options.length] = new Option('All','/serieslist');
+			{% for series in series %}
+				selbox.options[selbox.options.length] = new Option('{{series.name}}','/series/{{series.id}}');
+			{%endfor%}
+	}
+	
 		if (chosen == "Publisher") {
 			selbox.options[selbox.options.length] = new Option('All','/publisherlist');
 			{% for publisher in publishers %}
 				selbox.options[selbox.options.length] = new Option('{{publisher.name}}','/publishers/{{publisher.id}}');
 			{%endfor%}
 		}
-	<!--	if (chosen == "Year") {
-	<!--		selbox.options[selbox.options.length] = new Option('All','year, all');
-	<!--	}
+
 		if (chosen == "Translator") {
 			selbox.options[selbox.options.length] = new Option('All','/translatorlist');
 			{% for translator in translators %}
 				selbox.options[selbox.options.length] = new Option('{{translator.name}}','/translators/{{translator.id}}');
 			{%endfor%}
 		}
+
+		if (chosen == "Illustrations") {
+			selbox.options[selbox.options.length] = new Option('All','/illustrations');
+			{% for book in illustrations %}
+				selbox.options[selbox.options.length] = new Option('{{book.title}}','/books/{{book.label}}');
+			{%endfor%}
+		}	
+		
+		if (chosen == "Inscriptions") {
+			selbox.options[selbox.options.length] = new Option('All','/inscriptions');
+			{% for book in inscriptions %}
+				selbox.options[selbox.options.length] = new Option('{{book.title}}','/books/{{book.label}}');
+			{%endfor%}
+		}
+
+		if (chosen == "Marginalia") {
+			selbox.options[selbox.options.length] = new Option('All','/marginalia');
+			{% for book in marginalia %}
+				selbox.options[selbox.options.length] = new Option('{{book.title}}','/books/{{book.label}}');
+			{%endfor%}
+		}			
+
+		if (chosen == "Inserts") {
+			selbox.options[selbox.options.length] = new Option('All','/inserts');
+			{% for book in inserts %}
+				selbox.options[selbox.options.length] = new Option('{{book.title}}','/books/{{book.label}}');
+			{%endfor%}
+		}		
+	
+		if (chosen == "Backmatter") {
+			selbox.options[selbox.options.length] = new Option('All','/backmatter');
+			{% for book in backmatter %}
+				selbox.options[selbox.options.length] = new Option('{{book.title}}','/books/{{book.label}}');
+			{%endfor%}
+		}	
 		}	
 	</script>
 	<script>
@@ -96,8 +136,12 @@
 			}
 		}
 	</script>
-	<div align = "center")>  This online library is... (brief description) </div>
-	<br><br>
+	<div align = "center">  This online library is... (brief description) </div>
+	<br>
+	<div align = "center">
+		Search by a specific field and item:
+	</div>
+	<br>
 	<form name="myform">
 		<div align="center">
 			<select name="optone" size="1" onchange="setOptions(document.myform.optone.options[document.myform.optone.selectedIndex].value);">
@@ -107,7 +151,12 @@
 				<option value="Translator"> Translator </option>
 				<option value="Book"> Book </option>
 				<option value="Work"> Work </option>
-				
+				<option value="Series"> Series</option>
+				<option value = "Marginalia">  Marginalia </option>	
+				<option value = "Inserts">  Inserts </option>	
+				<option value = "Inscriptions">  Inscriptions </option>	
+				<option value="Illustrations"> Illustrations</option>
+				<option value="Backmatter">Backmatter </option>
 			</select>
 			
 			<select name = "opttwo" size = "1")>
@@ -116,6 +165,21 @@
 			<input type="button" name="go" value="Search" onclick="goToNewPage(document.myform.opttwo)"> <br>
 		</div>
 	</form>
+	<br>
+	<div align = "center">
+		Or search by keyword:
+	</div>
+	<br>
+	<div align = "center">
+	<form name = "newsearch" action="/search/" method="get">  
+		<label for="id_q">Search:</label>
+           <input id="id_q" name="q" type="text">
+           <input type="submit" value="Submit">
+	</div>
+           
+
+	</form>
+
 {% endblock content %}
 </body>
 

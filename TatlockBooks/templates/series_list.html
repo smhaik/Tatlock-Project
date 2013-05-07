@@ -27,39 +27,42 @@
 
 <head>
 	{% extends "base.html" %}
-	{% block pagetitle %} <title> {{work.name}} </title>{% endblock pagetitle %}
+	{% block pagetitle %} <title>Series List</title>{% endblock pagetitle %}
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	<meta name="generator" content="Geany 1.22" />
 </head>
 
 <body>
-	
-	{% block titleName %} {{work.name}}{% endblock titleName %}
-	{% block content %}
-		{% block author %} <a href = "/../authors/{{work.author.id}}"> {{work.author}} </a> {% endblock author %} <br>
-		
-		{% block description %} About the Work: {{work.description}} {%endblock description %}<br>
-			Images of books of this work <br>
-					
-		{% block publishers %} Translations published by: 
-			{% for publisher in publishers %}
-				<ul><a href = "/../publishers/{{publisher.id}}"> {{publisher.name}} </a></ul>
-			{% endfor %} 
-		{% endblock publishers%} <br>
-		
-		{% block translators %} Translators of this work:
-			{% for translator in translators %}
-			<ul><a href = "/../translators/{{translator.id}}">{{translator.name}}</a></ul>
-			{% endfor %} 
-		{%endblock translators %}<br>
-		
-		{% block editions %} Versions(?) of this work:
-			{% for book in books %}
-			<ul><a href = "/../books/{{book.label}}">{{book.title}}</a></ul>
-			{% endfor %}
-		{% endblock editions %}
 
-		
+	{% block titleName %} Series {% endblock titleName %}
+	{% block content %}
+		{% regroup series by letter as letter_list %}
+		{% block navigation %}
+		<div id = "table">
+			<table name = "navigation">
+				<tr>
+					{% for letter in letter_list %}
+						<td><a href = "#{{letter.grouper}}">{{letter.grouper}}</a></td>
+					{%endfor %}
+				</tr>
+			</table>
+		</div>
+		{% endblock navigation %}
+		{% block list %}
+		<div id = "table">		
+			<table name = "list"; border = 1>
+				<tr>
+					<td> Title </td><td> Creator </td><td> Description </td>
+				</tr>	
+					{% for letter in letter_list %}
+						<tr><td id = "{{letter.grouper}}">{{letter.grouper}}</td></tr>
+						{% for series in letter.list %}
+							<tr><td><a href = "/../series/{{series.id}}">{{series.name}}</a></td><td>{{series.creator}}</td><td> {{series.description}}</td></tr>
+						{% endfor %}
+					{%endfor %}
+			</table>
+		</div>
+		{% endblock list %}
 	{% endblock content %}
 </body>
 

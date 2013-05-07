@@ -59,7 +59,8 @@ class Translator(models.Model):
         
 class Series(models.Model):
 	name = models.CharField(max_length = 100)
-	creator = models.ForeignKey(Publisher)
+	creator = models.CharField(max_length = 100)
+	creatorlink = models.ForeignKey(Publisher, null=True)
 	#books in series: see views.py
 	
 	def __unicode__(self):
@@ -82,7 +83,7 @@ class Book(models.Model):
 	translation = models.CharField(max_length=100)
 	translatorlink = models.ManyToManyField(Translator, null=True)
 	pages = models.CharField(max_length=40)
-	series = models.CharField(max_length=100)
+	series = models.CharField(max_length=100, null = True)
 	serieslink = models.ForeignKey(Series, null = True)
 	edition = models.CharField(max_length=100)
 	physdesc = models.TextField()
@@ -93,9 +94,6 @@ class Book(models.Model):
 	has_backmatter = models.BooleanField(default=False)
 	rdfpubid = models.CharField(max_length=100)
 	notes = models.TextField()
-    #in database: make notes more presentable
-    #mark special pages of notes (marginalia, inserted material, etc)
-		#include images of these and tag them to appear in a search result (deal with this when deal with search page)
 	type = models.CharField(max_length=100)
 	img_cover = models.CharField(max_length=100)
 
@@ -110,7 +108,7 @@ class Book(models.Model):
         
 
 class Bookimage(models.Model):
-	image = models.ImageField(upload_to='/media_root/bookimages/')
+	image = models.ImageField(upload_to= 'bookimages')
 	book = models.ForeignKey(Book)
 	sequence = models.IntegerField()
 	page = models.CharField(max_length = 100)
@@ -118,22 +116,31 @@ class Bookimage(models.Model):
 		(u'spine', u'spine'),
 		(u'fcover', u'front cover'), 
 		(u'bcover', u'back cover'), 
-		(u'inscription', u'inscription'),
+		(u'halftitle', u'half title page'),
 		(u'titlepage', u'title page'),
-		(u'copypage', u'copyrights page'),
 		(u'first_text', u'first page of text'),
 		(u'second_text', u'second page of text'),
 		(u'second_last_text', u'second to last page of text'),
 		(u'last_text', u'last page of text'),
 		(u'special', u'special'), 
 	)
+	type = models.CharField(max_length = 100, choices = type_choices)
+	is_inscription = models.BooleanField(default = False)
+	is_copyright = models.BooleanField(default = False)
+	is_front_ad = models.BooleanField(default = False)
 	is_frontispiece = models.BooleanField(default=False)
 	is_table_contents = models.BooleanField(default=False)
+	is_dedication = models.BooleanField(default = False)
 	is_back_ad = models.BooleanField(default=False)
 	is_back_cat = models.BooleanField(default=False)
 	is_illustration = models.BooleanField(default=False)
 	is_marginalia = models.BooleanField(default=False)
 	is_insert = models.BooleanField(default=False)
+	
+	def name_only(self):
+		parsed = self.image.name.split("/")
+		
+		return parsed[1]
 	
 	def __unicode__(self):
 		return u"----- {0} ----- {1}".format(self.image, self.book)

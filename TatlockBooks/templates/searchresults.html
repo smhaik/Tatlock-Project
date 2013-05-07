@@ -1,0 +1,83 @@
+<!--
+   untitled.html
+   
+   Copyright 2013 Sarah <Sarah@SARAH-PC>
+   
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+   
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+   
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+   MA 02110-1301, USA.
+   
+   
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+	{% extends "base.html" %} 
+	{% block pagetitle %} <title>Search Results</title> {%endblock pagetitle %}
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<meta name="generator" content="Geany 1.22" />
+</head>
+
+<body>
+	{% block title %} 
+		<div id = "header"><u> {% block titleName %} Search Results {% endblock titleName %} </u></div>
+	{% endblock title %} 
+	{% block content %}
+		</form>
+	<form name = "newsearch" action="/search/" method="get">  
+		<label for="id_q">Search:</label>
+           <input id="id_q" name="q" type="text">
+           <input type="submit" value="Submit">
+
+	</form>
+		
+		You searched for "{{ query_string }}" and the results are listed below.<br>
+		<br>
+		Books:<br>
+		{% for book in found_books %}
+			<li><a href = "/../books/{{book.label}}">{{book.title}}</a></li> </br>
+		{% endfor %}
+		<br>
+		Authors:<br>
+		{% for author in found_authors%}
+			<li> <a href = "/../authors/{{author.id}}">{{author.name}}</a> </li></br>
+		{% endfor %}
+		<br> 
+		Translators:<br>
+		{% for translator in found_translators%}
+			<li> <a href = "/../translators/{{translator.id}}">{{translator.name}}</a></li><br>
+		{% endfor %}
+		<br>
+		Publishers:<br>
+		{% for publisher in found_publishers%}
+			<li> <a href = "/../publishers/{{publisher.id}}">{{ publisher.name }}</a> </li><br>
+		{% endfor %}
+		<br>
+		Series: <br>
+		{%for series in found_series %}
+			<li> <a href = "/../series/{{series.id}}">{{series.name}}</a></li><br>
+		{% endfor %}
+		<br>
+		Works: <br>
+		{% for works in found_works %}
+			<li> <a href = "/../works/{{work.id}}"> {{work.name}} </a></li>
+		{% endfor %}
+	{% endblock content %}
+		
+</body>
+
+</html>
